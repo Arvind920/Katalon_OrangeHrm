@@ -1,0 +1,20 @@
+steps:
+  - uses: actions/checkout@v4
+
+  - name: Run Katalon Test Suite
+    run: |
+      katalon\katalonc.exe ^
+      -runMode=console ^
+      -projectPath="MyProject.prj" ^
+      -testSuitePath="Test Suites/Regression_TS" ^
+      -browserType="Chrome" ^
+      -apiKey=%KATALON_API_KEY%
+
+  - name: Zip Latest Report
+    run: zip_latest_katalon_report.bat
+
+  - name: Upload Katalon Report ZIP
+    uses: actions/upload-artifact@v4
+    with:
+      name: katalon-test-report
+      path: C:\KatalonReportsZip\*.zip
